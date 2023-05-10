@@ -1,0 +1,9 @@
+com\mycompany\dao\IDAO.class
+com\mycompany\dao\JPAUtils.class
+com\mycompany\models\NutriScore.class
+com\mycompany\models\Produit.class
+com\mycompany\models\Marque.class
+com\mycompany\controllers\CsvFile.class
+com\mycompany\openfoodfact\OpenFoodFact.class
+com\mycompany\models\Categorie.class
+com\mycompany\dao\UserDao.class

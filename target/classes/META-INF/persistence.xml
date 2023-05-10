@@ -7,7 +7,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.mycompagy.OpenFoodFact</class>
         <properties>
-            <property name="jakarta.persistence.jdbc.url " value="jdbc:mysql://localhost:3306/OpenFoodFact-tp"/>
+            <property name="jakarta.persistence.jdbc.url " value="jdbc:mysql://localhost:3306/openfoodfact-tp"/>
             <property name="jakarta.persistence.jdbc.user" value="admin"/>
             <property name="jakarta.persistence.jdbc.password" value="admin"/>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>   

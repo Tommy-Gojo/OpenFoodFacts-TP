@@ -4,12 +4,21 @@
  */
 package com.mycompany.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -36,45 +45,55 @@ import javax.persistence.NamedQuery;
     * et la requete se fera quand j'appelerai ce qu'il y a dans le name.                         v
     */
     @NamedQuery(name = "Produit.findProduitByMarque" , query = "SELECT p FROM Produit p WHERE p.nomProd = :marque"),
-    @NamedQuery(name = "Produit.findProduitByMarqueAndCategorie" , query = "SELECT p FROM Produit p WHERE p.Marque = :marque"),
+  
+    
     /**
     *
     * Je selectionne : Tout les elements dans Produit au index ci -------------------------------|
     * et la requete se fera quand j'appelerai ce qu'il y a dans le name.                         v
     */
-    @NamedQuery(name = "Produit.findProduitByIngre" , query = "SELECT p FROM Produit p WHERE p.listIngrÈProd = :listIngrÈProd"),
-    @NamedQuery(name = "Produit.findProduitByAllergene" , query = "SELECT p FROM Produit p WHERE p.AllergeneProd = :AllergeneProd"),
-    @NamedQuery(name = "Produit.findProduitByAllergene" , query = "SELECT p FROM Produit p WHERE p.additifProd = :additifProd"),
+    @NamedQuery(name = "Produit.findProduitByIngre" , query = "SELECT p FROM Produit p WHERE p.listIngr√©Prod = :listIngr√©Prod"),
+    
     
 })
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String nomProd;
     private String infoProd;
-    private String listIngrÈProd;
-    private String energProd;
-    private Integer quantGraisse;
-    private String AllergeneProd;
-    private String additifProd;
+    private String listIngr√©Prod;
+    private int energProd;
+    private Float quantGraisse;
+    
+    // #####################
+    // Debut des relations #
+    // #####################
+    
+    @ManyToMany
+    private List<Allergene> allergenes = new ArrayList<>();
+    
+    @ManyToMany
+    @JoinTable(
+        name = "produit_additif",
+        joinColumns = @JoinColumn(name = "produit_id"),
+        inverseJoinColumns = @JoinColumn(name = "additif_id")
+    )
+    private List<Additif> additifProd = new ArrayList<>();
+    
+    
+    @ManyToOne
     private Categorie categorie;
+    
+    
+    @Enumerated(EnumType.STRING)
     private NutriScore nutriScore;
-    private Marque marque;
+    
+    @ManyToMany
+    private List<Marque> marque;
 
-    public Produit(Integer id, String nomProd, String infoProd, String listIngrÈProd, String energProd, Integer quantGraisse, String AllergeneProd, String additifProd, Categorie categorie, NutriScore nutriScore, Marque marque) {
-        this.id = id;
-        this.nomProd = nomProd;
-        this.infoProd = infoProd;
-        this.listIngrÈProd = listIngrÈProd;
-        this.energProd = energProd;
-        this.quantGraisse = quantGraisse;
-        this.AllergeneProd = AllergeneProd;
-        this.additifProd = additifProd;
-        this.categorie = categorie;
-        this.nutriScore = nutriScore;
-        this.marque = marque;
-    }
+    
 
     public Integer getId() {
         return id;
@@ -100,43 +119,45 @@ public class Produit {
         this.infoProd = infoProd;
     }
 
-    public String getListIngrÈProd() {
-        return listIngrÈProd;
+    public String getListIngr√©Prod() {
+        return listIngr√©Prod;
     }
 
-    public void setListIngrÈProd(String listIngrÈProd) {
-        this.listIngrÈProd = listIngrÈProd;
+    public void setListIngr√©Prod(String listIngr√©Prod) {
+        this.listIngr√©Prod = listIngr√©Prod;
     }
 
-    public String getEnergProd() {
+    public int getEnergProd() {
         return energProd;
     }
 
-    public void setEnergProd(String energProd) {
+    public void setEnergProd(int energProd) {
         this.energProd = energProd;
     }
 
-    public Integer getQuantGraisse() {
+    public Float getQuantGraisse() {
         return quantGraisse;
     }
 
-    public void setQuantGraisse(Integer quantGraisse) {
+    public void setQuantGraisse(Float quantGraisse) {
         this.quantGraisse = quantGraisse;
     }
 
-    public String getAllergeneProd() {
-        return AllergeneProd;
+    public List<Allergene> getAllergenes() {
+        return allergenes;
     }
 
-    public void setAllergeneProd(String AllergeneProd) {
-        this.AllergeneProd = AllergeneProd;
+    public void setAllergenes(List<Allergene> allergenes) {
+        this.allergenes = allergenes;
     }
 
-    public String getAdditifProd() {
+    
+
+    public List<Additif> getAdditifProd() {
         return additifProd;
     }
 
-    public void setAdditifProd(String additifProd) {
+    public void setAdditifProd(List<Additif> additifProd) {
         this.additifProd = additifProd;
     }
 
@@ -156,17 +177,25 @@ public class Produit {
         this.nutriScore = nutriScore;
     }
 
-    public Marque getMarque() {
+    public List<Marque> getMarque() {
         return marque;
     }
 
-    public void setMarque(Marque marque) {
+    public void setMarque(List<Marque> marque) {
         this.marque = marque;
     }
 
     @Override
     public String toString() {
-        return "Produit{" + "id=" + id + ", nomProd=" + nomProd + ", infoProd=" + infoProd + ", listIngr\u00e9Prod=" + listIngrÈProd + ", energProd=" + energProd + ", quantGraisse=" + quantGraisse + ", AllergeneProd=" + AllergeneProd + ", additifProd=" + additifProd + ", categorie=" + categorie + ", nutriScore=" + nutriScore + ", marque=" + marque + '}';
+        return "Produit{" + "id=" + id + ", nomProd=" + nomProd + ", infoProd=" + infoProd + ", listIngr\u00e9Prod=" + listIngr√©Prod + ", energProd=" + energProd + ", quantGraisse=" + quantGraisse + ", allergenes=" + allergenes + ", additifProd=" + additifProd + ", categorie=" + categorie + ", nutriScore=" + nutriScore + ", marque=" + marque + '}';
     }
+
+    
+
+    
+
+    
+
+    
 
 }

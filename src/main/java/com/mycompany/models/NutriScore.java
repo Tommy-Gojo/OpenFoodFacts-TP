@@ -4,6 +4,9 @@
  */
 package com.mycompany.models;
 
+import jakarta.persistence.ManyToMany;
+import java.util.List;
+
 /**
  *
  * @author Tommy
@@ -17,11 +20,15 @@ public enum NutriScore {
 
     private int id;
     private String nutriScore;
+    
 
     private NutriScore(int id, String nutriScore) {
         this.id = id;
         this.nutriScore = nutriScore;
+        
     }
+
+    
 
     public int getId() {
         return id;
