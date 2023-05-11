@@ -21,6 +21,7 @@ import java.util.List;
 @NamedQueries({
     @NamedQuery(name = "Categorie.findProduitByCate" , query = "SELECT c FROM Categorie c WHERE c.nomCate = :nomCate"),
     @NamedQuery(name = "Categorie.findAllCate" , query = "SELECT c FROM Categorie c"),
+    @NamedQuery(name = "Categorie.findByName", query = "SELECT c FROM Categorie c WHERE c.nomCate = :nomCate")
 })
 public class Categorie {
     @Id

@@ -32,6 +32,7 @@ public class AllergeneDAO {
         return null;
     }
     
+    
     public Allergene getById(int id){
         return null;
     }

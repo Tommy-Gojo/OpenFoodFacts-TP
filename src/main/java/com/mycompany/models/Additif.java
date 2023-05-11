@@ -29,6 +29,7 @@ public class Additif {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nomAdditif;
+    private String code;
     
     /*
      *  Relation ManyToMany entre additif et produits
@@ -59,6 +60,14 @@ public class Additif {
         this.nomAdditif = nomAdditif;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     public List<Produit> getProduits() {
         return produits;
     }
